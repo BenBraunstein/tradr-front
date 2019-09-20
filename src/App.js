@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect} from 'react';
 import './App.css';
+import LogIn from './componenets/LogIn'
+import {useSelector, useDispatch} from 'react-redux'
+import {autologin} from './actions'
+
 
 function App() {
+  const state = useSelector(state => state)
+  const dispatch = useDispatch()
+  console.log(state)
+
+    useEffect(() => {
+      const token = localStorage.getItem('token')
+      if(token){
+        fetch('http://localhost:3001/autologin',{
+          headers: {
+            accept: "application/json",
+            Authorization: `Bearer: ${localStorage.getItem("token")}`
+          }
+        })
+        .then(resp => resp.json())
+        .then(userResponse => {
+          console.log(userResponse)
+          dispatch(autologin(userResponse))
+        })
+      }
+
+    }, [])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+    <h1>Tradr</h1>
+    <h2>Welcome Current User: {state.login.currentUser.username}</h2>
+    <LogIn />
+    </>
+    );
 }
 
 export default App;
