@@ -1,6 +1,7 @@
 import React from 'react'
 import {useDispatch} from 'react-redux'
 import {login} from '../actions'
+import { Modal, Menu, Form, Button } from 'semantic-ui-react'
 
 const LogIn = () => {
     const dispatch = useDispatch()
@@ -28,14 +29,22 @@ const LogIn = () => {
 
     
     return (
-        <div>
-            <h1>Log In</h1>
-            <form onSubmit={handleLoginSubmit}>
-                <input type="text" name="username" placeholder="Username" />
-                <input type="password" name="password" placeholder="Password" />
-                <input type="submit" value="Log In" />
-            </form>
-        </div>
+        <Modal dimmer='blurring' size='tiny' trigger={<Menu.Item name='Login'/>}>
+            <Modal.Header>Log In</Modal.Header>
+            <Modal.Content>
+                <Form onSubmit={handleLoginSubmit}>
+                    <Form.Field>
+                        <label>Username</label>
+                        <input type="text" name="username" placeholder="Username" />
+                    </Form.Field>
+                    <Form.Field>
+                        <label>Password</label>
+                        <input type="password" name="password" placeholder="Password" />
+                    </Form.Field>
+                    <Button type='submit'>Log In</Button>
+                </Form>
+            </Modal.Content>
+        </Modal>
     )
 }
 

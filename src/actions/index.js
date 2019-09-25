@@ -5,6 +5,12 @@ const login = (loginResponse) => {
     }
 }
 
+const logout = () => {
+    return {
+        type: 'LOG_OUT'
+    }
+}
+
 const autologin = (autologinResponse) => {
     return {
         type: 'AUTOLOGIN',
@@ -33,6 +39,59 @@ const fetchUsers = (userResponse) => {
     }
 }
 
+const toggleProposingTrade = () => {
+    return {
+        type: 'TOGGLE_PROPOSING_TRADE'
+    }
+}
 
+const itemToTrade = (item) => {
+    return {
+        type: 'SET_TRADE_ITEM',
+        payload: item
+    }
+}
 
-export {login, autologin, signup, fetchItems, fetchUsers}
+const fetchTrades = (pendingTrades) => {
+    return {
+        type: 'FETCH_TRADES',
+        payload: pendingTrades
+    }
+}
+
+const declineTrade = (declineResponse) => {
+    return {
+        type: 'DECLINE_TRADE',
+        payload: declineResponse
+    }
+}
+
+const acceptTrade = (acceptResponse) => {
+    return {
+        type: 'ACCEPT_TRADE',
+        payload: acceptResponse
+    }
+}
+
+const newPendingTrade = (tradeResponse) => {
+    return {
+        type: 'NEW_TRADE',
+        payload: tradeResponse
+    }
+}
+
+const grabHistory = (history) => {
+    return {
+        type: 'GRAB_HISTORY',
+        payload: history
+    }
+}
+
+const updateHistory = (url) => {
+    return {
+        type: 'UPDATE_HISTORY',
+        payload: url
+    }
+}
+
+export {login, autologin, signup, fetchItems, fetchUsers, toggleProposingTrade, itemToTrade, fetchTrades, declineTrade, acceptTrade, newPendingTrade, logout, grabHistory, updateHistory}

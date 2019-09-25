@@ -2,16 +2,20 @@ import React, {useEffect} from 'react';
 import './App.css';
 import LogIn from './componenets/LogIn'
 import {useSelector, useDispatch} from 'react-redux'
-import {autologin, fetchItems, fetchUsers} from './actions'
+import {Route, Switch, withRouter} from 'react-router-dom'
+import {autologin, fetchItems, fetchUsers, fetchTrades, grabHistory} from './actions'
 import ItemContainer from './containers/ItemContainer'
 import Signup from './componenets/Signup';
+import ItemForm from './componenets/ItemForm';
+import Navbar from './componenets/Navbar';
+import ProposeTrade from './componenets/ProposeTrade';
+import NotificationContainer from './containers/NotificationContainer';
 
 
-function App() {
+function App(props) {
   const state = useSelector(state => state)
   const dispatch = useDispatch()
-  console.log(state)
-
+   
     useEffect(() => {
       // Autologin
       const token = localStorage.getItem('token')
@@ -25,6 +29,7 @@ function App() {
         .then(resp => resp.json())
         .then(userResponse => {
           dispatch(autologin(userResponse))
+          dispatch(grabHistory(props.history)) 
         })
       }
     
@@ -41,15 +46,29 @@ function App() {
       .then(itemFetchResponse => {
         dispatch(fetchItems(itemFetchResponse))
       })
-    }, [])
+      
+      // Fetch Pending Trades
+      fetch('http://localhost:3001/trades')
+      .then(resp => resp.json())
+      .then(tradeResponse => {
+        dispatch(fetchTrades(tradeResponse))
+      })
 
+    }, [])
+  
   return (
-    <>
-    <h1>Tradr</h1>
-    <h2>Welcome Current User: {state.login.currentUser.username}</h2>
-    <ItemContainer />
-    </>
+    <div>
+      {}
+      <Navbar />
+      <h1>Tradr</h1>
+      <Switch>
+        <Route path='/item/new' render={() => <ItemForm />} />
+        <Route path='/yourItems' render={() => state.login.proposingTrade ? <ProposeTrade /> : <ItemContainer allItems={state.login.allItems.filter(item => item.user_id === state.login.currentUser.id)} />} />
+        <Route path='/allItems' render={() => <ItemContainer allItems={state.login.allItems} />} />
+        <Route path='/' render={() => state.login.proposingTrade ? <ProposeTrade /> : <ItemContainer buttonText="Propose Trade" allItems={state.login.allItems.filter(item => item.user_id !== state.login.currentUser.id)} />} />
+      </Switch>
+    </div>
     );
 }
 
-export default App;
+export default withRouter(App);

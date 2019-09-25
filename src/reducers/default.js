@@ -1,7 +1,11 @@
 const defaultState = {
     currentUser: {},
     allUsers: [],
-    allItems: []
+    allItems: [],
+    history: {},
+    pendingTrades: [],
+    proposingTrade: false,
+    itemToTrade: null
 }
 
 export default defaultState

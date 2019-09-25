@@ -1,24 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {createStore} from 'redux'
-
+import {BrowserRouter} from 'react-router-dom'
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import rootReducer from './reducers'
 import {Provider} from 'react-redux'
+require('dotenv').config()
 
 // Store
 const store = createStore(rootReducer, window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 
-// Reducers
-
-
-// Dispatch
-
-
 ReactDOM.render(
     <Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <App />
+        </BrowserRouter>
     </Provider>
     , document.getElementById('root'));
 
