@@ -14,7 +14,7 @@ const ItemContainer = (props) => {
     const searchItems = props.allItems.filter(item => item.name.toLowerCase().includes(state.searchText) || item.category.toLowerCase().includes(state.searchText))
     const allItemCards = searchItems.map(item => <ItemCard key={`item-${item.id}`} itemInfo={item} owner={state.allUsers.find(user => user.id === item.user_id)} buttonText={props.buttonText} yourItems={props.yourItems} />)
     return (
-            <CardGroup centered>
+            <CardGroup centered style={{marginTop: '50px'}} >
                 {allItemCards}
             </CardGroup>
     )
