@@ -1,7 +1,7 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import { Card, Image, Button } from 'semantic-ui-react'
-import { declineTrade, acceptTrade } from '../actions'
+import { declineTrade, fetchTrades } from '../actions'
 
 const Notification = (props) => {
     const state = useSelector(state => state.login)
@@ -12,7 +12,7 @@ const Notification = (props) => {
     const acceptor = state.allUsers.find(user => user.id === props.notificationInfo.acceptor_id)
 
     const handleAcceptPush = () => {
-        fetch(`http://localhost:3001/accept/${props.notificationInfo.id}`, {
+        fetch(`${state.url}/accept/${props.notificationInfo.id}`, {
             method: "PATCH",
             headers: {
                 accept: "application/json",
@@ -21,15 +21,16 @@ const Notification = (props) => {
             body: JSON.stringify({status: 'completed'})
         })
         .then(resp => resp.json())
-        .then(acceptResponse => {
+        .then(newPendingTrades => {
             // remove offer from notifications in state
-            dispatch(acceptTrade(acceptResponse))
-            console.log(acceptResponse)
+            // dispatch(acceptTrade(newPendingTrades))
+            dispatch(fetchTrades(newPendingTrades))
+
         })
     }
 
     const handleDeclinePush = () => {
-        fetch(`http://localhost:3001/decline/${props.notificationInfo.id}`, {
+        fetch(`${state.url}/decline/${props.notificationInfo.id}`, {
             method: "PATCH",
             headers: {
                 accept: "application/json",
@@ -41,12 +42,11 @@ const Notification = (props) => {
         .then(declineResponse => {
             // remove it from notifications in state
             dispatch(declineTrade(declineResponse))
-            console.log(declineResponse)
         })
     }
 
     const handleNudgePush = () => {
-        fetch(`http://localhost:3001/nudge/${props.notificationInfo.id}`, {
+        fetch(`${state.url}/nudge/${props.notificationInfo.id}`, {
             method: "PATCH",
             headers: {
                 accept: "application/json",
@@ -55,7 +55,6 @@ const Notification = (props) => {
         })
             .then(resp => resp.json())
             .then(nudgeResponse => {
-                console.log(nudgeResponse)
                 alert(`Ok... we will nudge ${acceptor.username}`)
             })
     }

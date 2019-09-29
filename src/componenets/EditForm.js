@@ -1,16 +1,17 @@
 import React, {useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import ReactFilestack from 'filestack-react'
-import { Modal, Menu, Form, Button } from 'semantic-ui-react'
-import { newItem } from '../actions'
+import { Modal, Form, Button } from 'semantic-ui-react'
+import { editItem } from '../actions'
 
-const ItemForm = (props) => {
-    const [imageUrl, changeImageUrl] = useState("")
+const EditForm = (props) => {
+    const [imageUrl, changeImageUrl] = useState(props.itemInfo.image)
+    const [itemInfo, changeItemInfo] = useState(props.itemInfo)
     const state = useSelector(state => state.login)
     const userId = state.currentUser.id
     const dispatch = useDispatch()
 
-    const itemFormSubmit = (e) => {
+    const editFormSubmit = (e) => {
         e.preventDefault()
         const form = e.target
         const itemBody = {
@@ -19,8 +20,8 @@ const ItemForm = (props) => {
             category: form.category.value,
             user_id: userId
         }
-        fetch(`${state.url}/items`,{
-            method: "POST",
+        fetch(`${state.url}/items/${props.itemInfo.id}`,{
+            method: "PATCH",
             headers: {
                 accept: "application/json",
                 'Content-Type': 'application/json'
@@ -28,34 +29,37 @@ const ItemForm = (props) => {
             body: JSON.stringify(itemBody)
         })
         .then(resp => resp.json())
-        .then(newItemResponse => {
-            dispatch(newItem(newItemResponse))
-
+        .then(editItemResponse => {
+            dispatch(editItem(editItemResponse))
         })
     }
 
+    const handleFormChange = (e) => {
+        changeItemInfo({...state, [e.target.name]: e.target.value})
+    }
+
     return (
-        <Modal trigger={<Menu.Item name="new item" />}>
-            <Modal.Header>Add a new Item</Modal.Header>
+        <Modal trigger={<Button positive>Edit</Button>}>
+            <Modal.Header>Edit Item</Modal.Header>
             <Modal.Content>
-                <Form onSubmit={itemFormSubmit}>
+                <Form onSubmit={editFormSubmit}>
                     <Form.Field>
                         <label>Item Name</label>
-                        <input type='text' name='name' placeholder='Item Name' />
+                        <input type='text' name='name' placeholder='Item Name' value={itemInfo.name} onChange={handleFormChange} />
                     </Form.Field>
                     <Form.Field>
                         <label>Category</label>
-                        <input type='text' name='category' placeholder='Category' />
+                        <input type='text' name='category' placeholder='Category' value={itemInfo.category} onChange={handleFormChange} />
                     </Form.Field>
                     <Form.Field>
-                        <label>Upload your Image</label>
+                        <label>Change your Image</label>
                         <ReactFilestack apikey={process.env.REACT_APP_FILESTACK_KEY} onSuccess={(res) => changeImageUrl(res.filesUploaded[0].url)} />
                     </Form.Field>
-                    <Button type='submit'>Add Item</Button>
+                    <Button type='submit'>Submit Changes</Button>
                 </Form>
             </Modal.Content>
         </Modal>
     )
 }
 
-export default ItemForm
+export default EditForm

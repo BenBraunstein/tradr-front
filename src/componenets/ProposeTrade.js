@@ -1,16 +1,23 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
-import { Segment, Grid, CardGroup, Header } from 'semantic-ui-react'
+import { Segment, Grid, CardGroup, Header, Button } from 'semantic-ui-react'
 import ItemCard from './ItemCard'
+import { toggleProposingTrade } from '../actions'
 
 const ProposeTrade = () => {
+    window.scrollTo(0, 0)
     const state = useSelector(state => state.login)
+    const dispatch = useDispatch()
     const wantItemCard = <ItemCard key={`item-${state.itemToTrade.id}`} itemInfo={state.itemToTrade} owner={state.allUsers.find(user => user.id === state.itemToTrade.user_id)} />
     const yourItemCards = state.allItems.filter(item => item.user_id === state.currentUser.id).map(item => <ItemCard key={`item-${item.id}`} itemInfo={item} owner={{username: 'You'}} buttonText={"Trade Away"} />)
-    console.log(state.itemToTrade)
+
+    const handleCancelTrade = () => {
+        dispatch(toggleProposingTrade())
+        window.scrollTo(0,0)
+    }
 
     return (
-        <Segment>
+        <Segment style={{ backgroundColor: '#ADB7DD'}} >
             <Grid columns='equal' >
                 <Grid.Column width={4}>
                     <Header as='h3' attached='top'>
@@ -19,6 +26,7 @@ const ProposeTrade = () => {
                     <br/>
                     <CardGroup centered>
                         {wantItemCard}
+                    <Button attached='bottom' negative onClick={handleCancelTrade} >Cancel Trade</Button>
                     </CardGroup>
                 </Grid.Column>
                 <Grid.Column>

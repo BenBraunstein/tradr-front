@@ -6,7 +6,7 @@ const loginReducer = (state = defaultState, action) => {
             localStorage.setItem('token', action.payload.token)
             return {...state, currentUser: action.payload.user}
         case 'LOG_OUT':
-            return { ...state, currentUser: {}, pendingTrades: [] }
+            return { ...state, currentUser: {}, pendingTrades: [], proposingTrade: false }
         case 'AUTOLOGIN':
             return {...state, currentUser: action.payload}
         case 'SIGN_UP':
@@ -33,6 +33,18 @@ const loginReducer = (state = defaultState, action) => {
         case 'UPDATE_HISTORY':
             state.history.push(action.payload)
             return { ...state, history: state.history}
+        case 'NEW_ITEM':
+            return {...state, allItems: [...state.allItems, action.payload]}
+        case 'UPDATE_SEARCH':
+            return {...state, searchText: action.payload.toLowerCase()}
+        case 'DELETE_ITEM':
+            return {...state, allItems: state.allItems.filter(item => item.id !== action.payload.id)}
+        case 'EDIT_ITEM':
+            const editItem = state.allItems.find(item => item.id === action.payload.id)
+            const index = state.allItems.indexOf(editItem)
+            const newAllItems = state.allItems.filter(item => item.id !== action.payload.id)
+            newAllItems.splice(index, 0, action.payload)
+            return {...state, allItems: newAllItems}
         default: 
             return state
     }

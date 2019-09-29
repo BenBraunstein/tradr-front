@@ -1,26 +1,27 @@
-import React, {useEffect} from 'react';
-import './App.css';
-import LogIn from './componenets/LogIn'
+import React, {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {Route, Switch, withRouter} from 'react-router-dom'
-import {autologin, fetchItems, fetchUsers, fetchTrades, grabHistory} from './actions'
 import ItemContainer from './containers/ItemContainer'
-import Signup from './componenets/Signup';
 import ItemForm from './componenets/ItemForm';
 import Navbar from './componenets/Navbar';
 import ProposeTrade from './componenets/ProposeTrade';
-import NotificationContainer from './containers/NotificationContainer';
+import Spinner from 'react-spinner-material';
+import {autologin, fetchItems, fetchUsers, fetchTrades, grabHistory} from './actions'
+import './App.css';
 
 
 function App(props) {
-  const state = useSelector(state => state)
+  const [doneLoading, changeLoading] = useState(false)
+  const state = useSelector(state => state.login)
   const dispatch = useDispatch()
-   
-    useEffect(() => {
+  
+  useEffect(() => {
+    // Redux router
+    dispatch(grabHistory(props.history))
       // Autologin
       const token = localStorage.getItem('token')
       if(token){
-        fetch('http://localhost:3001/autologin', {
+        fetch(`${state.url}/autologin`, {
           headers: {
             accept: "application/json",
             Authorization: `Bearer: ${token}`
@@ -29,43 +30,44 @@ function App(props) {
         .then(resp => resp.json())
         .then(userResponse => {
           dispatch(autologin(userResponse))
-          dispatch(grabHistory(props.history)) 
         })
       }
-    
+      
       // Get all users
-      fetch('http://localhost:3001/users')
+      fetch(`${state.url}/users`)
       .then(resp => resp.json())
       .then(userResponse => {
         dispatch(fetchUsers(userResponse))
       })
-
+      
       // Get all items
-      fetch("http://localhost:3001/items")
+      fetch(`${state.url}/items`)
       .then(resp => resp.json())
       .then(itemFetchResponse => {
         dispatch(fetchItems(itemFetchResponse))
       })
       
       // Fetch Pending Trades
-      fetch('http://localhost:3001/trades')
+      fetch(`${state.url}/trades`)
       .then(resp => resp.json())
       .then(tradeResponse => {
         dispatch(fetchTrades(tradeResponse))
+        changeLoading(true)
       })
-
-    }, [])
-  
+    }, [dispatch, props.history, state.url])
+    
+    if (!doneLoading) {
+      return <center style={{ marginTop: '15em' }}><Spinner size={120} spinnerColor={"#333"} spinnerWidth={2} visible={true} /></center>
+    }
+    
   return (
     <div>
-      {}
       <Navbar />
-      <h1>Tradr</h1>
       <Switch>
         <Route path='/item/new' render={() => <ItemForm />} />
-        <Route path='/yourItems' render={() => state.login.proposingTrade ? <ProposeTrade /> : <ItemContainer allItems={state.login.allItems.filter(item => item.user_id === state.login.currentUser.id)} />} />
-        <Route path='/allItems' render={() => <ItemContainer allItems={state.login.allItems} />} />
-        <Route path='/' render={() => state.login.proposingTrade ? <ProposeTrade /> : <ItemContainer buttonText="Propose Trade" allItems={state.login.allItems.filter(item => item.user_id !== state.login.currentUser.id)} />} />
+        <Route path='/yourItems' render={() => state.proposingTrade ? <ProposeTrade /> : <ItemContainer yourItems={true} allItems={state.allItems.filter(item => item.user_id === state.currentUser.id)} />} />
+        <Route path='/allItems' render={() => <ItemContainer allItems={state.allItems} yourItems={false} />} />
+        <Route path='/' render={() => state.proposingTrade ? <ProposeTrade /> : <ItemContainer buttonText="Propose Trade" allItems={state.allItems.filter(item => item.user_id !== state.currentUser.id)} />} />
       </Switch>
     </div>
     );

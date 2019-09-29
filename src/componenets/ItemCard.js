@@ -1,11 +1,14 @@
-import React from 'react'
-import {Card, Image, Button} from 'semantic-ui-react'
+import React, {useState} from 'react'
+import {Card, Image, Button, Confirm} from 'semantic-ui-react'
 import {useSelector, useDispatch} from 'react-redux'
-import { toggleProposingTrade, itemToTrade ,newPendingTrade } from '../actions'
+import { toggleProposingTrade, itemToTrade ,newPendingTrade, deleteItem } from '../actions'
+import EditForm from './EditForm'
 
 const ItemCard = (props) => {
     const dispatch = useDispatch()
     const state = useSelector(state => state.login)
+    const [deleteConfirm, toggleDeleteConfirm] = useState(false)
+    const [editForm, toggleEditForm] = useState(false)
 
     const itemButtonPressed = (e, itemInfo) => {
         if(e.target.innerText === "Propose Trade"){
@@ -18,7 +21,7 @@ const ItemCard = (props) => {
                 requester_item: itemInfo.id,
                 status: "pending"
             }
-            fetch('http://localhost:3001/trades', {
+            fetch(`${state.url}/trades`, {
                 method: "POST",
                 headers: {
                     accept: "application/json",
@@ -37,16 +40,41 @@ const ItemCard = (props) => {
         }
     }
 
+    const pressedDelete = () => {
+        fetch(`${state.url}/items/${props.itemInfo.id}`,{
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then(resp => resp.json())
+        .then(deletedItem => {
+            dispatch(deleteItem(deletedItem))
+            toggleDeleteConfirm(false)
+        })
+    }
+
     return (
         <Card>
-            <Image src={props.itemInfo.image} wrapped ui={false} />
+            <Image src={props.itemInfo.image} wrapped ui={false} style={{height: '290px'}} />
             <Card.Content>
-                <Card.Header>{props.itemInfo.name}</Card.Header>
-                {props.owner ? <Card.Description>Owned By: {props.owner.username}</Card.Description> : null}
+                <Card.Header style={{ color: '#2185d0' }}>{props.itemInfo.name}</Card.Header>
+                {props.owner ? <Card.Description style={{ color: '#2185d0' }}>Owned By: {props.owner === state.currentuser ? "You" : props.owner.username}</Card.Description> : null}
             </Card.Content>
-            {props.buttonText ? (<Card.Content extra>
-                <Button basic color='blue' onClick={(e) => itemButtonPressed(e, props.itemInfo)} >{props.buttonText}</Button>
-            </Card.Content>) : null}
+            {props.yourItems ? (<Card.Content extra>
+                <center>
+                    <Button.Group>
+                        <EditForm yourItems={props.yourItems} itemInfo={props.itemInfo} />
+                        <Button.Or />
+                        <Button onClick={() => toggleDeleteConfirm(true)} negative>Delete</Button>
+                        <Confirm open={deleteConfirm} cancelButton="Never Mind" confirmButton={<Button negative>I'm Sure</Button>} onCancel={() => toggleDeleteConfirm(false)} onConfirm={pressedDelete} content={`Are you sure you want to delete your ${props.itemInfo.name}?  This cannot be undone...`}  />
+                    </Button.Group>
+                </center>
+                </Card.Content>) : (
+                props.buttonText ? (<Card.Content extra>
+                    <Button basic color='blue' onClick={(e) => itemButtonPressed(e, props.itemInfo)} >{props.buttonText}</Button>
+                </Card.Content>) : null
+            )}
             
         </Card>
 

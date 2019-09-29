@@ -94,4 +94,32 @@ const updateHistory = (url) => {
     }
 }
 
-export {login, autologin, signup, fetchItems, fetchUsers, toggleProposingTrade, itemToTrade, fetchTrades, declineTrade, acceptTrade, newPendingTrade, logout, grabHistory, updateHistory}
+const newItem = (newItemResponse) => {
+    return {
+        type: 'NEW_ITEM',
+        payload: newItemResponse
+    }
+}
+
+const updateSearchText = (searchText) => {
+    return {
+        type: 'UPDATE_SEARCH',
+        payload: searchText
+    }
+}
+
+const deleteItem = (deletedItem) => {
+    return {
+        type: 'DELETE_ITEM',
+        payload: deletedItem
+    }
+}
+
+const editItem = (editResponse) => {
+    return {
+        type: 'EDIT_ITEM',
+        payload: editResponse
+    }
+}
+
+export {login, autologin, signup, fetchItems, fetchUsers, toggleProposingTrade, itemToTrade, fetchTrades, declineTrade, acceptTrade, newPendingTrade, logout, grabHistory, updateHistory, newItem, updateSearchText, deleteItem, editItem}
