@@ -122,4 +122,18 @@ const editItem = (editResponse) => {
     }
 }
 
-export {login, autologin, signup, fetchItems, fetchUsers, toggleProposingTrade, itemToTrade, fetchTrades, declineTrade, acceptTrade, newPendingTrade, logout, grabHistory, updateHistory, newItem, updateSearchText, deleteItem, editItem}
+const addMessage = (message) => {
+    return {
+        type: 'ADD_MESSAGE',
+        payload: message
+    }
+}
+
+const fetchMessages = (messageList) => {
+    return {
+        type: 'FETCH_MESSAGES',
+        payload: messageList
+    }
+}
+
+export {login, autologin, signup, fetchItems, fetchUsers, toggleProposingTrade, itemToTrade, fetchTrades, declineTrade, acceptTrade, newPendingTrade, logout, grabHistory, updateHistory, newItem, updateSearchText, deleteItem, editItem, addMessage, fetchMessages}

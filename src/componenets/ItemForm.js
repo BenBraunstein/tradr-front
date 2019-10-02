@@ -4,8 +4,9 @@ import ReactFilestack from 'filestack-react'
 import { Modal, Menu, Form, Button } from 'semantic-ui-react'
 import { newItem } from '../actions'
 
-const ItemForm = (props) => {
+const ItemForm = () => {
     const [imageUrl, changeImageUrl] = useState("")
+    const [modalState, changeModalState] = useState(false)
     const state = useSelector(state => state.login)
     const userId = state.currentUser.id
     const dispatch = useDispatch()
@@ -30,12 +31,12 @@ const ItemForm = (props) => {
         .then(resp => resp.json())
         .then(newItemResponse => {
             dispatch(newItem(newItemResponse))
-
+            changeModalState(false)
         })
     }
 
     return (
-        <Modal trigger={<Menu.Item name="new item" />}>
+        <Modal trigger={<Menu.Item name="new item" onClick={() => changeModalState(true)} />} open={modalState} >
             <Modal.Header>Add a new Item</Modal.Header>
             <Modal.Content>
                 <Form onSubmit={itemFormSubmit}>
@@ -51,7 +52,8 @@ const ItemForm = (props) => {
                         <label>Upload your Image</label>
                         <ReactFilestack apikey={process.env.REACT_APP_FILESTACK_KEY} onSuccess={(res) => changeImageUrl(res.filesUploaded[0].url)} />
                     </Form.Field>
-                    <Button type='submit'>Add Item</Button>
+                    <Button positive type='submit'>Add Item</Button>
+                    <Button negative onClick={() => changeModalState(false)} >Never Mind...</Button>
                 </Form>
             </Modal.Content>
         </Modal>

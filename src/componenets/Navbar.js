@@ -36,7 +36,7 @@ const Navbar = (props) => {
     }
 
     return (
-        <Menu fixed='top' style={{ height: '49px'}}  >
+        <Menu fixed='top' style={{ height: '49px', zIndex: 1}}  >
             <Menu.Item 
                 name='home'
                 active={activeItem === 'Home'}

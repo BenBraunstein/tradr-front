@@ -16,8 +16,9 @@ const ProposeTrade = () => {
         window.scrollTo(0,0)
     }
 
+
     return (
-        <Segment style={{ backgroundColor: '#ADB7DD'}} >
+        <Segment style={{ backgroundColor: '#ADB7DD', marginTop: '50px'}} >
             <Grid columns='equal' >
                 <Grid.Column width={4}>
                     <Header as='h3' attached='top'>

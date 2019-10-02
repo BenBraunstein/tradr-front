@@ -45,6 +45,13 @@ const loginReducer = (state = defaultState, action) => {
             const newAllItems = state.allItems.filter(item => item.id !== action.payload.id)
             newAllItems.splice(index, 0, action.payload)
             return {...state, allItems: newAllItems}
+        case 'ADD_MESSAGE':
+            return {...state, messageList: [...state.messageList, action.payload]}
+        case 'FETCH_MESSAGES':
+            if(state.messageList.length !== action.payload.length){
+                return {...state, messageList: action.payload}
+            }
+            return state
         default: 
             return state
     }

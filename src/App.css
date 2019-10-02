@@ -1,22 +1,23 @@
-.App {
-  text-align: center;
+.sc-chat-window {
+  max-height: 525px;
+  z-index: 4;
 }
-
-.App-logo {
-  height: 40vmin;
+.sc-header--img {
+  width: 50px;
+  padding: 0px;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.sc-message--avatar {
+  display: none;
 }
-
-.App-link {
-  color: #09d3ac;
+.sc-user-input--file-icon-wrapper {
+  display: none;
+}
+.sc-message-list {
+  padding-top: 10px;
+}
+.sc-message--emoji {
+  padding: 6px;
+}
+.sc-header {
+  min-height: 65px;
 }

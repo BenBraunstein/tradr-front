@@ -8,7 +8,6 @@ const ItemCard = (props) => {
     const dispatch = useDispatch()
     const state = useSelector(state => state.login)
     const [deleteConfirm, toggleDeleteConfirm] = useState(false)
-    const [editForm, toggleEditForm] = useState(false)
 
     const itemButtonPressed = (e, itemInfo) => {
         if(e.target.innerText === "Propose Trade"){
@@ -56,7 +55,7 @@ const ItemCard = (props) => {
 
     return (
         <Card>
-            <Image src={props.itemInfo.image} wrapped ui={false} style={{height: '290px'}} />
+            <Image src={props.itemInfo.image} wrapped ui={false} style={{height: '290px', marginTop: '3px'}} />
             <Card.Content>
                 <Card.Header style={{ color: '#2185d0' }}>{props.itemInfo.name}</Card.Header>
                 {props.owner ? <Card.Description style={{ color: '#2185d0' }}>Owned By: {props.owner === state.currentuser ? "You" : props.owner.username}</Card.Description> : null}

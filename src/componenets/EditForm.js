@@ -7,6 +7,7 @@ import { editItem } from '../actions'
 const EditForm = (props) => {
     const [imageUrl, changeImageUrl] = useState(props.itemInfo.image)
     const [itemInfo, changeItemInfo] = useState(props.itemInfo)
+    const [modalState, changeModalState] = useState(false)
     const state = useSelector(state => state.login)
     const userId = state.currentUser.id
     const dispatch = useDispatch()
@@ -31,6 +32,8 @@ const EditForm = (props) => {
         .then(resp => resp.json())
         .then(editItemResponse => {
             dispatch(editItem(editItemResponse))
+            changeModalState(false)
+
         })
     }
 
@@ -39,7 +42,7 @@ const EditForm = (props) => {
     }
 
     return (
-        <Modal trigger={<Button positive>Edit</Button>}>
+        <Modal trigger={<Button onClick={() => changeModalState(true)} positive>Edit</Button>} open={modalState}  >
             <Modal.Header>Edit Item</Modal.Header>
             <Modal.Content>
                 <Form onSubmit={editFormSubmit}>
@@ -55,7 +58,8 @@ const EditForm = (props) => {
                         <label>Change your Image</label>
                         <ReactFilestack apikey={process.env.REACT_APP_FILESTACK_KEY} onSuccess={(res) => changeImageUrl(res.filesUploaded[0].url)} />
                     </Form.Field>
-                    <Button type='submit'>Submit Changes</Button>
+                    <Button positive type='submit'>Submit Changes</Button>
+                    <Button negative onClick={() => changeModalState(false)} >Never Mind...</Button>
                 </Form>
             </Modal.Content>
         </Modal>

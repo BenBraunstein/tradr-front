@@ -6,9 +6,10 @@ import ItemForm from './componenets/ItemForm';
 import Navbar from './componenets/Navbar';
 import ProposeTrade from './componenets/ProposeTrade';
 import Spinner from 'react-spinner-material';
-import {autologin, fetchItems, fetchUsers, fetchTrades, grabHistory} from './actions'
+import {autologin, fetchItems, fetchUsers, fetchTrades, grabHistory, fetchMessages} from './actions'
+import Footer from './componenets/Footer';
+import Chat from './componenets/Chat';
 import './App.css';
-
 
 function App(props) {
   const [doneLoading, changeLoading] = useState(false)
@@ -54,7 +55,40 @@ function App(props) {
         dispatch(fetchTrades(tradeResponse))
         changeLoading(true)
       })
-    }, [dispatch, props.history, state.url])
+
+      // Fetch Messages
+      const interval = setInterval(() => {
+        if(state.currentUser.username){
+          fetch(`${state.url}/messages`)
+          .then(resp => resp.json())
+          .then(messageListResponse => {
+                const messageList = messageListResponse.map(message => {
+                  if (message.kind === 'text') {
+                    return {
+                      author: message.author,
+                      type: message.kind,
+                      data: {
+                        text: message.content
+                      }
+                    }
+                  }
+                  else {
+                    return {
+                      author: message.author,
+                      type: message.kind,
+                      data: {
+                        emoji: message.content
+                      }
+                    }
+                  }
+                })
+                dispatch(fetchMessages(messageList))
+            })
+        }
+      }, 1500)
+      return () => clearInterval(interval)
+      
+    }, [dispatch, props.history, state.url, state.currentUser.username])
     
     if (!doneLoading) {
       return <center style={{ marginTop: '15em' }}><Spinner size={120} spinnerColor={"#333"} spinnerWidth={2} visible={true} /></center>
@@ -69,6 +103,8 @@ function App(props) {
         <Route path='/allItems' render={() => <ItemContainer allItems={state.allItems} yourItems={false} />} />
         <Route path='/' render={() => state.proposingTrade ? <ProposeTrade /> : <ItemContainer buttonText="Propose Trade" allItems={state.allItems.filter(item => item.user_id !== state.currentUser.id)} />} />
       </Switch>
+      {state.currentUser.username ? <Chat /> : null}
+      <Footer />
     </div>
     );
 }
