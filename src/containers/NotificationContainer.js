@@ -12,7 +12,7 @@ const NotificationContainer = () => {
 
     return (
         <Modal dimmer='blurring' trigger={<Menu.Item name='bell'>
-            {state.pendingTrades.length >= 1 ? <><Icon name='bell outline' size='large' />{state.pendingTrades.length}</> : <Icon name='bell slash outline' size='large' /> }
+            {state.pendingTrades.length >= 1 ? <><Icon name='bell outline' size='large' />{allNotifications.length}</> : <Icon name='bell slash outline' size='large' /> }
         </Menu.Item>} basic style={{ top: '10em' }} >
             {state.pendingTrades.length >= 1 ? <Modal.Header>Your Notifications</Modal.Header> : <Modal.Header>No Notifications</Modal.Header>}
             <Modal.Description>
