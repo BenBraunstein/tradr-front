@@ -57,7 +57,9 @@ const ItemCard = (props) => {
 
     return (
         <Card>
-            <Image src={props.itemInfo.image} wrapped ui={false} style={{height: '290px', width: '290px', marginTop: '3px'}} />
+            <div style={{width: '290px', height: '290px'}} >
+                <img src={props.itemInfo.image} style={{objectFit: 'cover', width: '290px', height: '290px'}} />
+            </div>
             <Card.Content>
                 <Card.Header style={{ color: '#2185d0' }}>{props.itemInfo.name}</Card.Header>
                 {props.owner ? <Card.Description style={{ color: '#2185d0' }}>Owned By: {props.owner === state.currentuser ? "You" : props.owner.username}</Card.Description> : null}

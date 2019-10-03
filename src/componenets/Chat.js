@@ -9,6 +9,7 @@ const Chat = () => {
     const messageList = state.messageList
 
     const onMessageWasSent = (message) => {
+        console.log('Message Sent', message)
         let newMessage
         let messageToPost
         if(message.type === 'text'){
@@ -30,7 +31,7 @@ const Chat = () => {
                 author: state.currentUser.username,
                 type: 'emoji',
                 data: {
-                    emoji: message.emoji
+                    emoji: message.data.emoji
                 }
             }
             messageToPost = {
@@ -39,6 +40,7 @@ const Chat = () => {
                 content: message.data.emoji
             }
         }
+        console.log('New Message to be dispatched', newMessage)
         dispatch(addMessage(newMessage))
         fetch(`${state.url}/messages`, {
             method: 'POST',
@@ -51,6 +53,7 @@ const Chat = () => {
     }
 
     const controlledMessageList = messageList.map(message => {
+        console.log('Pulled Message', message)
         if(message.author === state.currentUser.username){
             return {...message, author: 'me'}
         }
