@@ -28,7 +28,7 @@ const loginReducer = (state = defaultState, action) => {
         case 'ACCEPT_TRADE':
             return {...state, pendingTrades: state.pendingTrades.filter(trade => trade.id !== action.payload.id)}
         case 'NEW_TRADE':
-            return {...state, pendingTrades: [action.payload ,...state.pendingTrades]}
+            return {...state, pendingTrades: [action.payload,...state.pendingTrades]}
         case 'GRAB_HISTORY':
             return {...state, history: action.payload}
         case 'UPDATE_HISTORY':

@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {Card, Image, Button, Confirm} from 'semantic-ui-react'
+import {Card, Button, Confirm} from 'semantic-ui-react'
 import {useSelector, useDispatch} from 'react-redux'
 import alertify from 'alertifyjs'
 import { toggleProposingTrade, itemToTrade ,newPendingTrade, deleteItem } from '../actions'
@@ -58,7 +58,7 @@ const ItemCard = (props) => {
     return (
         <Card>
             <div style={{width: '290px', height: '290px'}} >
-                <img src={props.itemInfo.image} style={{objectFit: 'cover', width: '290px', height: '290px'}} />
+                <img src={props.itemInfo.image} alt={props.itemInfo.name} style={{objectFit: 'cover', width: '290px', height: '290px', marginTop: '3px'}} />
             </div>
             <Card.Content>
                 <Card.Header style={{ color: '#2185d0' }}>{props.itemInfo.name}</Card.Header>
