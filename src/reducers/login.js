@@ -1,4 +1,5 @@
 import defaultState from './default'
+import alertify from 'alertifyjs'
 
 const loginReducer = (state = defaultState, action) => {
     switch(action.type){
@@ -46,10 +47,15 @@ const loginReducer = (state = defaultState, action) => {
             newAllItems.splice(index, 0, action.payload)
             return {...state, allItems: newAllItems}
         case 'ADD_MESSAGE':
-            return {...state, messageList: [...state.messageList, action.payload]}
+            return {...state, messageList: [...state.messageList, action.payload], newMessageCount: 0}
         case 'FETCH_MESSAGES':
             if(state.messageList.length !== action.payload.length){
-                return {...state, messageList: action.payload}
+                if(state.messageList.length > 1){
+                    alertify.set('notifier', 'position', 'bottom-left');
+                    alertify.message("New Chat")
+                    document.querySelector('#new-chat-noise').play()
+                }
+                return { ...state, messageList: action.payload, newMessageCount: Math.abs(state.messageList.length - action.payload.length)}
             }
             return state
         default: 

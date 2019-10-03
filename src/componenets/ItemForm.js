@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import ReactFilestack from 'filestack-react'
 import { Modal, Menu, Form, Button } from 'semantic-ui-react'
+import alertify from 'alertifyjs'
 import { newItem } from '../actions'
 
 const ItemForm = () => {
@@ -32,6 +33,8 @@ const ItemForm = () => {
         .then(newItemResponse => {
             dispatch(newItem(newItemResponse))
             changeModalState(false)
+            alertify.set('notifier', 'position', 'bottom-left');
+            alertify.success(`Thanks for adding your ${newItemResponse.name}`);
         })
     }
 

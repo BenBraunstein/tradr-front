@@ -85,7 +85,7 @@ function App(props) {
                 dispatch(fetchMessages(messageList))
             })
         }
-      }, 1500)
+      }, 2000)
       return () => clearInterval(interval)
       
     }, [dispatch, props.history, state.url, state.currentUser.username])

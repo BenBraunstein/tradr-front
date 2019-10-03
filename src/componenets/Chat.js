@@ -66,15 +66,19 @@ const Chat = () => {
     })
 
     return (
-        <Launcher
-            agentProfile={{
-                teamName: 'Tradr Chat',
-                imageUrl: 'https://i.imgur.com/dJKMcle.png'
-            }}
-            onMessageWasSent={onMessageWasSent.bind(this)}
-            messageList={controlledMessageList}
-            showEmoji
-        />
+        <>
+            <audio autoPlay><source src="https://cdn.filestackcontent.com/FV4YqdQSgy6JDAIRxTiZ" type="audio.ogg"/></audio>
+            <Launcher
+                agentProfile={{
+                    teamName: 'Tradr Chat',
+                    imageUrl: 'https://i.imgur.com/dJKMcle.png'
+                }}
+                onMessageWasSent={onMessageWasSent.bind(this)}
+                messageList={controlledMessageList}
+                mute={false}
+                showEmoji
+            />
+        </>
     )
 }
 

@@ -3,6 +3,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import ReactFilestack from 'filestack-react'
 import { Modal, Form, Button } from 'semantic-ui-react'
 import { editItem } from '../actions'
+import alertify from 'alertifyjs'
 
 const EditForm = (props) => {
     const [imageUrl, changeImageUrl] = useState(props.itemInfo.image)
@@ -33,7 +34,8 @@ const EditForm = (props) => {
         .then(editItemResponse => {
             dispatch(editItem(editItemResponse))
             changeModalState(false)
-
+            alertify.set('notifier', 'position', 'bottom-left');
+            alertify.success("Edit Successful");
         })
     }
 

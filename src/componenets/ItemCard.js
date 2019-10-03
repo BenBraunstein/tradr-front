@@ -1,6 +1,7 @@
 import React, {useState} from 'react'
 import {Card, Image, Button, Confirm} from 'semantic-ui-react'
 import {useSelector, useDispatch} from 'react-redux'
+import alertify from 'alertifyjs'
 import { toggleProposingTrade, itemToTrade ,newPendingTrade, deleteItem } from '../actions'
 import EditForm from './EditForm'
 
@@ -31,7 +32,8 @@ const ItemCard = (props) => {
             .then(resp => resp.json())
             .then(tradeResponse => {
                 if(state.allUsers.length > 1){
-                    alert(`Request Submitted, we will alert ${state.allUsers.find(user => user.id === tradeResponse.acceptor_id).username}`)
+                    alertify.set('notifier', 'position', 'bottom-left');
+                    alertify.success(`Request Submitted, we will alert ${state.allUsers.find(user => user.id === tradeResponse.acceptor_id).username} of your request`);
                 }
                 dispatch(newPendingTrade(tradeResponse))
                 dispatch(toggleProposingTrade())
@@ -55,7 +57,7 @@ const ItemCard = (props) => {
 
     return (
         <Card>
-            <Image src={props.itemInfo.image} wrapped ui={false} style={{height: '290px', marginTop: '3px'}} />
+            <Image src={props.itemInfo.image} wrapped ui={false} style={{height: '290px', width: '290px', marginTop: '3px'}} />
             <Card.Content>
                 <Card.Header style={{ color: '#2185d0' }}>{props.itemInfo.name}</Card.Header>
                 {props.owner ? <Card.Description style={{ color: '#2185d0' }}>Owned By: {props.owner === state.currentuser ? "You" : props.owner.username}</Card.Description> : null}

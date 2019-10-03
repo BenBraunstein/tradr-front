@@ -1,6 +1,7 @@
 import React from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import { Card, Image, Button } from 'semantic-ui-react'
+import alertify from 'alertifyjs'
 import { declineTrade, fetchTrades } from '../actions'
 
 const Notification = (props) => {
@@ -25,7 +26,7 @@ const Notification = (props) => {
             // remove offer from notifications in state
             // dispatch(acceptTrade(newPendingTrades))
             dispatch(fetchTrades(newPendingTrades))
-
+            
         })
     }
 
@@ -55,7 +56,8 @@ const Notification = (props) => {
         })
             .then(resp => resp.json())
             .then(nudgeResponse => {
-                alert(`Ok... we will nudge ${acceptor.username}`)
+                alertify.set('notifier', 'position', 'bottom-left');
+                alertify.success(`Ok... we will nudge ${acceptor.username}`);
             })
     }
 
@@ -72,6 +74,9 @@ const Notification = (props) => {
                 <Card.Content extra>
                     <Button basic color='green' onClick={handleNudgePush} >
                         Nudge ?
+                    </Button>
+                    <Button basic color='red' onClick={handleDeclinePush} >
+                        Cancel Offer
                     </Button>
                 </Card.Content>
             </Card>
