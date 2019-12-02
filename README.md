@@ -1,68 +1,77 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Tradr
 
-## Available Scripts
+Welcome to Tradr!
 
-In the project directory, you can run:
+## Demo
 
-### `npm start`
+[Try it!](https://tradr-frontend.herokuapp.com/)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Motivation
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Everyone has old stuff they don't use anymore, which sits in the corner of your room or in the back of a closet somewhere.
 
-### `npm test`
+You don't want to get rid of these because they have value. Either that value is to you or to someone else, it still exists.
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Tradr is an app where you could finally get these things out of your house (and make your spouse happy) and into the hands of someone who will finally put them to good use once again. Not only will you rid yourself of these items, you can get something of actual value in return.
 
-### `npm run build`
+## Build Status
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Tradr is in a Beta Status. It is ready for everyday use, however has some small bugs which will be fixed.
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+## Code Style
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Indentation using Prettier Code Formatter.
 
-### `npm run eject`
+## Frameworks
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+This app is built using React.js, FileStack, Rails 5 API and the Twilio API to send SMS messages.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Installation
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Clone down then start the backend with the command `rails s`.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## Features
 
-## Learn More
+1. Authentication and Authorization using Bcrypt and JSON Web Tokens.
+2. Add items you want to trade into your list of items (and add images of them using FilesStack)
+3. View, search and filter all available items for trade
+4. Propose trades with others.
+5. Integrated notification system to see all pending trades.
+6. New trades use Twilio API to send SMS messages and notify recipient of the trade.
+7. Users of the application can chat using Text and Emoji.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## License
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+GNU
 
-### Code Splitting
+## [Front-End Github](https://github.com/MildlyConfused/tradr-front)
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+## Screenshots
 
-### Analyzing the Bundle Size
+Homepage:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+![Homepage Showing Avaiable Items](https://i.imgur.com/SCNBu9J.png)
 
-### Making a Progressive Web App
+Adding an Item:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+![Adding an Item](https://i.imgur.com/Ykd9DXb.png)
 
-### Advanced Configuration
+Making a Trade:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+![Making a Trade](https://i.imgur.com/SCNBu9J.png)
 
-### Deployment
+Outgoing Trade Notification:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+![Outgoing Trade Notification](https://i.imgur.com/oF6Fd2X.png)
 
-### `npm run build` fails to minify
+Incoming Trade Notification:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+![Incoming Trade Notification](https://i.imgur.com/N3Dnsbb.png)
+
+Tradr Chat:
+
+![Tradr Chat](https://i.imgur.com/WFb00Xv.png)
+
+SMS Message Example:
+
+![SMS Message Example](https://i.imgur.com/YU9qvDk.png)
