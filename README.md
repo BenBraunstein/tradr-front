@@ -28,7 +28,7 @@ This app is built using React.js, FileStack, Rails 5 API and the Twilio API to s
 
 ## Installation
 
-Clone down then start the backend with the command `rails s`.
+Clone down then start it with the command `npm install` then `npm start`.
 
 ## Features
 
@@ -44,7 +44,7 @@ Clone down then start the backend with the command `rails s`.
 
 GNU
 
-## [Front-End Github](https://github.com/MildlyConfused/tradr-front)
+## [Back-End Github](https://github.com/MildlyConfused/tradr-backend)
 
 ## Screenshots
 
